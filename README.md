@@ -5,3 +5,6 @@ The script applies several filters to the data. First, it filters out those spec
 H=∑_(i=0)^n▒〖〖-p〗_i 〖log〗_n p_i 〗
 
 Where n is equal to the number of character states, pi is equal to the probability of observing state i of the given character, and is equal to (the number of occurrences of state i)/(the total number of occurrences for a given character).
+
+Run as: Rscript EntropyFilter.R <max row % ?> <max col % ?> <min entropy> <input file> <output file> <species list>"
+  i.e. Rscript EntropyFilter.R 0.25 0.5 0.25 brusatte2014_file1b.txt brusatte2014_025r_05c_025h_out.txt species.txt
