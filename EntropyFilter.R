@@ -46,6 +46,10 @@ numq <- function(val) {
 }
 
 data <- read.table(infile,sep="\t",row.names=1, header=F)
+n_species <- dim(data)[1]
+n_chars <- dim(data)[2]
+q_data <- table(data == "?")
+q <- q_data[2]/(q_data[1]+q_data[2])
 
 # remove species with too many ?
 print("Removing species with too many undefined characters...")
@@ -64,7 +68,28 @@ H <- apply(data_filtered2,2,entropia,max_cq=max_cq)
 H[is.na(H)] <- 0
 
 new_data <- data_filtered[,which(H > cut)]
+n_species_filtered <- dim(new_data)[1]
+n_chars_filtered <- dim(new_data)[2]
+q_data_filt <- table(new_data == "?")
+q_filt <- q_data_filt[2]/(q_data_filt[1]+q_data_filt[2])
+
+red <- (n_species * n_chars)/(n_species_filtered * n_chars_filtered)
 
 write.table(new_data,outfile,sep="\t",quote=F, col.names=F)
 
 print("Filtered data set is ready!...")
+
+# write stats file
+write.table(paste('Input file: ',infile,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('Species file: ',species_file,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('Output file: ',outfile,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('Max row undefined %: ',toString(max_rq),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('Max column undefined %: ',toString(max_cq),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('Min entropy: ',toString(min_ent),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('no. species before filter: ',toString(n_species),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('no. characters before filter: ',toString(n_chars),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('% undefined before filter: ',toString(q),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('no. species after filter: ',toString(n_species_filtered),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('no. characters after filter: ',toString(n_chars_filtered),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('% undefined after filter: ',toString(q_filt),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('% reduction in data: ',toString(red),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
