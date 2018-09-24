@@ -51,6 +51,11 @@ n_chars <- dim(data)[2]
 q_data <- table(data == "?")
 q <- q_data[2]/(q_data[1]+q_data[2])
 
+# calculate pre-filter entropy
+H_pre <- apply(data,2,entropia,max_cq=1)
+H_pre[is.na(H_pre)] <- 0
+H_pre_mean <- sum(H_pre)/length(H_pre)
+
 # remove species with too many ?
 print("Removing species with too many undefined characters...")
 nqs <- apply(data,1,numq)
@@ -73,6 +78,11 @@ n_chars_filtered <- dim(new_data)[2]
 q_data_filt <- table(new_data == "?")
 q_filt <- q_data_filt[2]/(q_data_filt[1]+q_data_filt[2])
 
+# calculate post-filter entropy
+H_post <- apply(new_data,2,entropia,max_cq=1)
+H_post[is.na(H_post)] <- 0
+H_post_mean <- sum(H_post)/length(H_post)
+
 red <- (n_species * n_chars)/(n_species_filtered * n_chars_filtered)
 
 write.table(new_data,outfile,sep="\t",quote=F, col.names=F)
@@ -93,3 +103,5 @@ write.table(paste('no. species after filter: ',toString(n_species_filtered),sep=
 write.table(paste('no. characters after filter: ',toString(n_chars_filtered),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('% undefined after filter: ',toString(q_filt),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('% reduction in data: ',toString(red),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('% Mean pre-filter entropy: ',toString(H_pre_mean),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table(paste('% Mean post-filter entropy: ',toString(H_post_mean),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
