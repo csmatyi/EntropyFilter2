@@ -90,6 +90,8 @@ write.table(new_data,outfile,sep="\t",quote=F, col.names=F)
 print("Filtered data set is ready!...")
 
 # write stats file
+header <- paste("####### ","Analysis done on ",date()," #######",sep="")
+write.table(header,'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('Input file: ',infile,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('Species file: ',species_file,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('Output file: ',outfile,sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
@@ -105,3 +107,4 @@ write.table(paste('% undefined after filter: ',toString(q_filt),sep=''),'stats.t
 write.table(paste('% reduction in data: ',toString(red),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('% Mean pre-filter entropy: ',toString(H_pre_mean),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
 write.table(paste('% Mean post-filter entropy: ',toString(H_post_mean),sep=''),'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
+write.table("\n",'stats.txt',append=TRUE,quote=F,col.names=F,row.names=F)
