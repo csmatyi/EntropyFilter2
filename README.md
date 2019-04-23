@@ -6,5 +6,8 @@ H(j) = ∑i=1..n -p(i)*logn (p(i))
 
 Where n is equal to the number of character states, pi is equal to the probability of observing state i of the given character, and is equal to (the number of occurrences of state i)/(the total number of occurrences for a given character).
 
-Run as: Rscript EntropyFilter.R <max row % ?> <max col % ?> <min entropy> <input file> <output file> <species list>"
-  i.e. Rscript EntropyFilter.R 0.25 0.5 0.25 brusatte2014_file1b.txt brusatte2014_025r_05c_025h_out.txt species.txt
+Run as: Rscript EntropyFilter.R <max row % ?> <max col % ?> <min entropy> <input file> <output file> <species list>
+  
+  Example:
+  
+  Rscript EntropyFilter.R 0.25 0.5 0.25 brusatte2014_file1b.txt brusatte2014_025r_05c_025h_out.txt species.txt
